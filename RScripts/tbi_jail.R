@@ -3,6 +3,7 @@ library(tidyverse)
 library(mgcv)
 library(nlme)
 
+# Version 2.1
 
 # Two data files:
 #   1. tbi_data: data frame that contains only cases that have sustained
@@ -23,7 +24,6 @@ library(nlme)
 # Covariates
 #   osu_1c1 = age at first reported TBI
 #   knocked_out = loss of consciousness after first TBI
-#   tbi_cout = number of TBI after first during study period
 #   incar_days = proportion of each study interval incarcerated
 #   sex = individual's sex
 #   race_cat2 = individual's race
@@ -41,7 +41,6 @@ library(nlme)
 m1.2 <- gamm(recid ~ time +
                osu_1c1 +
                factor(knocked_out) +
-               tbi_count +
                offset(incar_days) +
                factor(sex) +  factor(race_cat2) ,
              niterPQL = 200,
@@ -57,7 +56,6 @@ m1.2$gam %>% summary()
 m2.2 <- gamm(felony ~ time +
                osu_1c1 +
                factor(knocked_out) +
-               tbi_count +
                offset(incar_days) +
                factor(sex) +  factor(race_cat2) ,
              niterPQL = 200,
@@ -74,7 +72,6 @@ m2.2$gam %>% summary()
 m3.2 <- gamm(misd ~ time +
                osu_1c1 +
                factor(knocked_out) +
-               tbi_count +
                offset(incar_days) +
                factor(sex) +  factor(race_cat2) ,
              niterPQL = 200,
@@ -93,7 +90,6 @@ m3.2$gam %>% summary()
 m1.0 <- gamm(recid ~ s(time) +
              osu_1c1 +
              factor(knocked_out) +
-             tbi_count +
              offset(incar_days) +
              factor(sex) +  factor(race_cat2) ,
            niterPQL = 200,
@@ -110,7 +106,6 @@ m1.0$gam %>% summary()
 m2.0 <- gamm(felony ~ s(time) +
                osu_1c1 +
                factor(knocked_out) +
-               tbi_count +
                offset(incar_days) +
                factor(sex) +  factor(race_cat2) ,
              niterPQL = 200,
@@ -127,7 +122,6 @@ m2.0$gam %>% summary()
 m3.0 <- gamm(misd ~ s(time) +
                osu_1c1 +
                factor(knocked_out) +
-               tbi_count +
                offset(incar_days) +
                factor(sex) +  factor(race_cat2) ,
              niterPQL = 200,
@@ -149,7 +143,6 @@ m1 <- gamm(recid ~ s(time,by=factor(d)) +
                       factor(d) +
                       osu_1c1 +
                       factor(knocked_out) +
-                      tbi_count +
                       offset(incar_days) +
                       factor(sex) +
                       factor(race_cat2) ,
@@ -170,7 +163,6 @@ m2 <- gamm(felony ~ s(time,by=factor(d)) +
              factor(d) +
              osu_1c1 +
              factor(knocked_out) +
-             tbi_count +
              offset(incar_days) +
              factor(sex) +
              factor(race_cat2) ,
@@ -190,7 +182,6 @@ m3 <- gamm(misd ~ s(time, by=factor(d)) +
              factor(d) +
              osu_1c1 +
              factor(knocked_out) +
-             tbi_count +
              offset(incar_days) +
              factor(sex) +
              factor(race_cat2) ,
@@ -213,7 +204,6 @@ m1_sex <- gamm(recid ~ s(time,by=factor(sex)) +
                  s(time) +
                  osu_1c1 +
                  factor(knocked_out) +
-                 tbi_count +
                  offset(incar_days) +
                  factor(sex) +
                  factor(race_cat2) ,
@@ -232,7 +222,6 @@ m2_sex <- gamm(felony ~ s(time,by=factor(sex)) +
                  s(time) +
                  osu_1c1 +
                  factor(knocked_out) +
-                 tbi_count +
                  offset(incar_days) +
                  factor(sex) +
                  factor(race_cat2) ,
@@ -251,7 +240,6 @@ m3_sex <- gamm(misd ~ s(time,by=factor(sex)) +
                  s(time) +
                  osu_1c1 +
                  factor(knocked_out) +
-                 tbi_count +
                  offset(incar_days) +
                  factor(sex) +
                  factor(race_cat2) ,
@@ -273,7 +261,6 @@ ad_loc <- gamm(recid ~ s(time,by=factor(knocked_out)) +
                  s(time) +
                  osu_1c1 +
                  factor(knocked_out) +
-                 tbi_count +
                  offset(incar_days) +
                  factor(sex) +
                  factor(race_cat2) ,
@@ -292,7 +279,6 @@ fel_loc <- gamm(felony ~ s(time,by=factor(knocked_out)) +
                   s(time) +
                   osu_1c1 +
                   factor(knocked_out) +
-                  tbi_count +
                   offset(incar_days) +
                   factor(sex) +
                   factor(race_cat2) ,
@@ -311,7 +297,6 @@ misd_loc <- gamm(misd ~ s(time,by=factor(knocked_out)) +
                    s(time) +
                    osu_1c1 +
                    factor(knocked_out) +
-                   tbi_count +
                    offset(incar_days) +
                    factor(sex) +
                    factor(race_cat2) ,
@@ -397,7 +382,6 @@ misd_comp$gam %>% summary()
 ad_age <- gamm(recid ~ s(time,by=osu_1c1) +
                  s(osu_1c1) +
                  factor(knocked_out) +
-                 tbi_count +
                  offset(incar_days) +
                  factor(sex) +
                  factor(race_cat2) ,
@@ -415,7 +399,6 @@ ad_age$gam %>% summary()
 fel_age <- gamm(felony ~ s(time) +
                   s(osu_1c1) +
                   factor(knocked_out) +
-                  tbi_count +
                   offset(incar_days) +
                   factor(sex) +
                   factor(race_cat2) ,
@@ -433,7 +416,6 @@ fel_age$gam %>% summary()
 misd_age <- gamm(misd ~ s(time) +
                    s(osu_1c1) +
                    factor(knocked_out) +
-                   tbi_count +
                    offset(incar_days) +
                    factor(sex) +
                    factor(race_cat2) ,
@@ -455,7 +437,6 @@ pre <- data.frame(
   d = 2 ,
   osu_1c1 = mean(tbi_data$osu_1c1),
   knocked_out = 0 ,
-  tbi_count = mean(tbi_data$tbi_count),
   incar_days = mean(tbi_data$incar_days),
   sex = 1 ,
   race_cat2 = 1 )
@@ -468,7 +449,6 @@ pre_sex <- data.frame(
   time = seq(1,8),
   osu_1c1 = mean(tbi_data$osu_1c1),
   knocked_out = 0 ,
-  tbi_count = mean(tbi_data$tbi_count),
   incar_days = mean(tbi_data$incar_days),
   sex = 1 ,
   race_cat2 = 1 )
@@ -482,7 +462,6 @@ pre_loc <- data.frame(
   time = seq(1,8),
   osu_1c1 = mean(tbi_data$osu_1c1),
   knocked_out = 0 ,
-  tbi_count = mean(tbi_data$tbi_count),
   incar_days = mean(tbi_data$incar_days),
   sex = 1 ,
   race_cat2 = 1 )
@@ -509,7 +488,6 @@ pre_age <- expand.grid(
   time = mean(tbi_data$time),
   osu_1c1 = seq(min(tbi_data$osu_1c1),67),
   knocked_out = 0 ,
-  tbi_count = mean(tbi_data$tbi_count),
   incar_days = mean(tbi_data$incar_days),
   sex = 1 ,
   race_cat2 = 1 )
@@ -611,18 +589,12 @@ p_misd_comp2 <- predict.gam(misd_comp$gam, newdata=pre_comp, type="response",
                 se.fit=TRUE)
 
 # Interactions (Age)
-p_ad_age <- predict.gam(ad_age$gam,newdata=pre_age,type="response",
-            se.fit=FALSE)
 p_ad_age$fit <- predict.gam(ad_age$gam,newdata=pre_age,type="response",
                 se.fit=FALSE)
 
-p_fel_age <- predict.gam(fel_age$gam,newdata=pre_age,type="response",
-              se.fit=FALSE)
 p_fel_age$fit <- predict.gam(fel_age$gam,newdata=pre_age,type="response",
                   se.fit=FALSE)
 
-p_misd_age <- predict.gam(misd_age$gam,newdata=pre_age,type="response",
-              se.fit=FALSE)
 p_misd_age$fit <- predict.gam(misd_age$gam,newdata=pre_age,type="response",
                   se.fit=FALSE)
 
